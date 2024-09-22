@@ -106,12 +106,7 @@ public class ItemManager : MonoBehaviour
         string PathOfConsumable = Path.Combine(@"D:\u3dpro", "JsonProject", "Assets", "Resources", "Json", "JsonOfConsuamble.json");
         File.WriteAllText(PathOfConsumable, StoredConsumable);
 
-        //unity无法读取sprite类型，不能写入json文件
-
-        //Juice.ItemSprite = Resources.Load<Sprite>(Juice.PathOfSprite);
-        //HotDog.ItemSprite = Resources.Load<Sprite>(HotDog.PathOfSprite);
-
-
+        //从Mod文件夹获取外部json文件并读取，由于数组容量不可变，因此先将数组转为List，扩容完后转回Array
         string ModJson = File.ReadAllText(ModPathOfConsum);
         Consum ModAllConsumables = JsonMapper.ToObject<Consum>(ModJson);
 
@@ -119,6 +114,7 @@ public class ItemManager : MonoBehaviour
         consumables.AddRange(ModAllConsumables.Consumables);
         AllConsumable.Consumables = consumables.ToArray();
 
+        //unity无法读取sprite类型，不能写入json文件
         GetSpriteForConsumables();
     }
 
@@ -148,11 +144,7 @@ public class ItemManager : MonoBehaviour
         string PathOfEquipment = Path.Combine(@"D:\u3dpro", "JsonProject", "Assets", "Resources", "Json", "JsonOfEquipment.json");
         File.WriteAllText(PathOfEquipment, StoredEquipment);
 
-        //unity无法读取sprite类型，不能写入json文件
-        //IronHelmet.ItemSprite = Resources.Load<Sprite>(IronHelmet.PathOfSprite);
-        //IronArmor.ItemSprite = Resources.Load<Sprite>(IronArmor.PathOfSprite);
-
-
+        //从Mod文件夹获取外部json文件并读取，由于数组容量不可变，因此先将数组转为List，扩容完后转回Array
         string ModJson = File.ReadAllText(ModPathOfEquip);
         Equip ModAllEquipments = JsonMapper.ToObject<Equip>(ModJson);
 
@@ -160,9 +152,11 @@ public class ItemManager : MonoBehaviour
         equipments.AddRange(ModAllEquipments.Equipments);
         AllEquipment.Equipments = equipments.ToArray();
 
+        //unity无法读取sprite类型，不能写入json文件
         GetSpriteForEquipments();
     }
 
+    //通过预制体为消耗品获取图片
     public void GetSpriteForConsumables()
     {
         for (int i = 0; i < AllConsumable.Consumables.Length; i++)
@@ -179,6 +173,7 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    //通过预制体为装备获取图片
     public void GetSpriteForEquipments()
     {
         for (int i = 0; i < AllEquipment.Equipments.Length; i++)
